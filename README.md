@@ -1,4 +1,4 @@
-# Juicy OBS Notifications
+# Juicy OBS Tip Alert
 
 A Vue.js application for displaying tip notifications in OBS for Juicy streams.
 
@@ -54,8 +54,8 @@ A Vue.js application for displaying tip notifications in OBS for Juicy streams.
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/your-username/juicy-obs-notifications.git
-   cd juicy-obs-notifications
+   git clone https://github.com/lena-kotikova/juicy-obs-tip-alert
+   cd juicy-obs-tip-alert
    ```
 
 2. Install dependencies:
@@ -91,13 +91,13 @@ A Vue.js application for displaying tip notifications in OBS for Juicy streams.
 3. Set the width to 1920 and height to 1080
 4. Enable "Shutdown source when not visible"
 5. Enable "Refresh cache when page is active"
+6. Add a filter to the Browser Source, set Chroma Key video filter to blue
 
 ## Features
 
 - Real-time tip notifications
 - Smooth animations
 - Queue system for multiple tips
-- Transparent background for OBS integration
 
 ## Troubleshooting
 
