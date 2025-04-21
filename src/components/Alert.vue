@@ -28,11 +28,12 @@ const currentTip = ref(null)
 const isFading = ref(false)
 const alertAudio = ref(null)
 const lastFetchData = ref(null) // Store last fetch response
+const hasUserInteracted = ref(false)
 let pollInterval = null
 let displayTimeout = null
 
 const playAlertSound = () => {
-    if (alertAudio.value) {
+    if (alertAudio.value && hasUserInteracted.value) {
         alertAudio.value.currentTime = 0
         alertAudio.value.play().catch(error => {
             console.error('Error playing alert sound:', error)
@@ -186,12 +187,27 @@ const showNextTip = () => {
     }
 }
 
+// Add event listener for user interaction
 onMounted(() => {
     console.log('Component mounted')
     // Start polling
     pollInterval = setInterval(fetchMessages, POLL_INTERVAL)
     // Initial fetch
     fetchMessages()
+
+    // Listen for any user interaction
+    const handleUserInteraction = () => {
+        hasUserInteracted.value = true
+        // Remove the event listener after first interaction
+        document.removeEventListener('click', handleUserInteraction)
+        document.removeEventListener('keydown', handleUserInteraction)
+        document.removeEventListener('touchstart', handleUserInteraction)
+    }
+
+    // Add event listeners for different types of user interaction
+    document.addEventListener('click', handleUserInteraction)
+    document.addEventListener('keydown', handleUserInteraction)
+    document.addEventListener('touchstart', handleUserInteraction)
 })
 
 onUnmounted(() => {
@@ -204,6 +220,7 @@ onUnmounted(() => {
 <style scoped>
 .alert-container {
     position: absolute;
+    z-index: 1000;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
@@ -216,21 +233,23 @@ onUnmounted(() => {
 }
 
 .alert-box {
-    background: rgba(0, 0, 0, 0.8);
+    background: rgba(0, 0, 0, 1);
     border-radius: 12px;
     padding: 20px;
     color: white;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     border: 2px solid #84cc15;
     animation: slideIn 0.5s ease-out;
-    opacity: 1;
-    transition: opacity 0.5s ease-out;
     width: 500px;
     text-align: center;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 
 .alert-box.fade-out {
-    opacity: 0;
+    animation: slideOut 0.5s ease-in forwards;
 }
 
 .alert-header {
@@ -263,12 +282,23 @@ onUnmounted(() => {
 
 @keyframes slideIn {
     from {
-        transform: translateY(-100px);
+        transform: translate(-50%, -100vh);
         opacity: 0;
     }
     to {
-        transform: translateY(0);
+        transform: translate(-50%, -50%);
         opacity: 1;
+    }
+}
+
+@keyframes slideOut {
+    from {
+        transform: translate(-50%, -50%);
+        opacity: 1;
+    }
+    to {
+        transform: translate(-50%, 100vh);
+        opacity: 0;
     }
 }
 </style> 

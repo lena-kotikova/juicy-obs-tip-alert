@@ -14,7 +14,7 @@ import Alert from './components/Alert.vue'
 body {
   margin: 0;
   padding: 0;
-  background: #0000FF;
+  background: #00FF00;
   overflow: hidden;
 }
 
@@ -27,13 +27,13 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  background: #0000FF;
+  background: #00FF00;
 }
 
 .canvas {
   width: 1920px;
   height: 1080px;
   position: relative;
-  background: #0000FF;
+  background: #00FF00;
 }
 </style>
